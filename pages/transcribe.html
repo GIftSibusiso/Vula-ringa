@@ -5,10 +5,57 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vula Ringa | Transcribe</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF6363",
+                        secondary: "#99181F",
+                        tertiary: "#F6AF3B",
+                        tertiaryDark: "#F56A3F",
+                        quaternary: "#12a7a7",
+                        quinary: "#FFA69E",
+                        'dark': '#1a202c',
+                        'dark-95': '#3F3D56',
+                    },
+                },
+            },
+        }
+    </script>
 </head>
 
 <body>
-    TO-DO: Transcribe the audio to text
+    <nav class="bg-dark-95 hidden md:flex items-center justify-between p-3 drop-shadow-md w-full z-10">
+        <a href="./../index.html">
+            <img src={LogoIcon} class="w-20 hidden md:flex" alt="logo" />
+        </a>
+        <ul class="hidden md:flex items-center justify-evenly gap-5">
+            <a class='hover:text-tertiary' href="./translate.html">
+                Translate
+            </a>
+            <a class='hover:text-tertiary' href="./transcribe.html">
+                Transcribe
+            </a>
+            <a class='hover:text-tertiary' href="./export.html">
+                Export
+            </a>
+        </ul>
+        <section class="hidden md:flex">
+            <a class="bg-gradient-to-r w-full w-full flex justify-center items-center from-primary to-secondary text-white px-4 py-2 rounded-lg hover:from-secondary hover:to-primary"" href="
+                ./translate.html">
+                Translate
+            </a>
+        </section>
+    </nav>
+    <h1>Audio Recorder</h1>
+    <button id="start">Start Recording</button>
+    <button id="stop" disabled>Stop Recording</button>
+    <audio id="audioPlayback" controls></audio>
+    <button id="send" disabled>Send Audio</button>
+
+    <script src="../js/record.js"></script>
 </body>
 
 </html>
