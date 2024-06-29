@@ -34,28 +34,13 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   sendButton.addEventListener("click", () => {
-    const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
-    console.log("Audio blob", audioBlob);
+    const file = new File(audioChunks, "audio.wav", {
+      type: "audio/wav",
+    });
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
 
-    fetch("https://vulavula-services.lelapa.ai/api/v1/transport/file-upload", {
-      headers: {
-        "X-CLIENT-TOKEN":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU1YjQ1MGY5MDcyOTRlM2ZhMzAyZDU0Nzg4NWNiYmEzIiwiY2xpZW50X2lkIjoyNywicmVxdWVzdHNfcGVyX21pbnV0ZSI6MCwibGFzdF9yZXF1ZXN0X3RpbWUiOm51bGx9.3xQ7MpYDtjvy7uJfIpYZ4mwI_OdVH2JTuX4OzqUmJyQ",
-      },
-      method: "POST",
-      json: {
-        file_name: "recording.wav",
-        audio_blob: audioBlob,
-        file_size: audioBlob.size,
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        console.log("Audio file sent successfully", data);
-      })
-      .catch((error) => {
-        console.error("Error sending audio file", error);
-      });
+
 
     // Reset audio chunks for the next recording
     audioChunks = [];
