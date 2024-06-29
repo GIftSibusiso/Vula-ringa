@@ -52,8 +52,9 @@
     <div class="flex gap-2 justify-center w-full px-4 py-8">
         <form id="myForm" class="w-full lg:w-2/3 py-8 bg-dark gap-3 shadow-lg rounded-xl">
             <section class="flex flex-col px-3 gap-2">
-            <label for="from">From: 
-                <select id="from" name="from">
+                <label for="from">From:
+                </label>
+                <select id="from" name="from" class="rounded-lg py-2 px-2 text-black">
                     <option value="northern sotho">Northern Sotho</option>
                     <option value="afrikaans">Afrikaans</option>
                     <option value="zulu">Zulu</option>
@@ -64,11 +65,10 @@
                     <option value="southern sotho">Southern Sotho</option>
                     <option value="english" selected>English (default)</option>
                 </select>
-            </label>
 
-
-            <label for="language">To: 
-                <select id="language" name="language">
+                <label for="language">To:
+                </label>
+                <select id="language" name="language" class="rounded-lg py-2 px-2 text-black">
                     <option value="northern sotho">Northern Sotho</option>
                     <option value="afrikaans">Afrikaans</option>
                     <option value="zulu">Zulu</option>
@@ -79,7 +79,6 @@
                     <option value="southern sotho">Southern Sotho</option>
                     <option value="english" selected>English (default)</option>
                 </select>
-            </label><br><br>
                 <label for="textInput">Text:</label>
                 <input class="rounded-lg py-2 px-2 text-black" type="textInput" name="textInput" id="textInput"
                     placeholder="how are you today">
