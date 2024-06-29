@@ -1,0 +1,23 @@
+{% extends 'layouts/base.html' %}
+{% block title %}Home{% endblock title %}
+
+{% block container %} 
+    <div class="container">
+        <form action="/translate" method="post">
+            <label for="language">Choose your language:</label>
+            <select id="language" name="language">
+                <option value="northern sotho">Northern Sotho</option>
+                <option value="afrikaans">Afrikaans</option>
+                <option value="zulu">Zulu</option>
+                <option value="tsonga">Tsonga</option>
+                <option value="xhosa">Xhosa</option>
+                <option value="swahili">Swahili</option>
+                <option value="swati">Swati</option>
+                <option value="southern sotho">Southern Sotho</option>
+                <option value="english" selected>English (default)</option>
+            </select><br><br>
+            <label for="">Text: <input type="text" name="text" id="text" placeholder="how are you today"> </label>
+            <input type="submit" value="Submit">
+        </form>
+    </div>
+{% endblock container %}
