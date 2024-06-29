@@ -1,0 +1,4 @@
+venv
+.venv
+_pycache_
+main.cpython-310.pyc
