@@ -39,10 +39,6 @@ document.addEventListener("DOMContentLoaded", () => {
     formData.append("file", audioBlob, "recording.wav");
 
     fetch("https://vulavula-services.lelapa.ai/api/v1/transport/file-upload", {
-      headers: {
-        "X-CLIENT-TOKEN":
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU1YjQ1MGY5MDcyOTRlM2ZhMzAyZDU0Nzg4NWNiYmEzIiwiY2xpZW50X2lkIjoyNywicmVxdWVzdHNfcGVyX21pbnV0ZSI6MCwibGFzdF9yZXF1ZXN0X3RpbWUiOm51bGx9.3xQ7MpYDtjvy7uJfIpYZ4mwI_OdVH2JTuX4OzqUmJyQ",
-      },
       method: "POST",
       body: formData,
     })
