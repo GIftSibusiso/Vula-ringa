@@ -5,32 +5,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vula Ringa | Translate</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#FF6363",
+                        secondary: "#99181F",
+                        tertiary: "#F6AF3B",
+                        tertiaryDark: "#F56A3F",
+                        quaternary: "#12a7a7",
+                        quinary: "#FFA69E",
+                        'dark': '#1a202c',
+                        'dark-95': '#3F3D56',
+                    },
+                },
+            },
+        }
+    </script>
 </head>
 
-<body>
-    <div class="container">
-        <form id="myForm">
-            <label for="language">Choose your language:</label>
-            <select id="language" name="language">
-                <option value="northern sotho">Northern Sotho</option>
-                <option value="afrikaans">Afrikaans</option>
-                <option value="zulu">Zulu</option>
-                <option value="tsonga">Tsonga</option>
-                <option value="xhosa">Xhosa</option>
-                <option value="swahili">Swahili</option>
-                <option value="swati">Swati</option>
-                <option value="southern sotho">Southern Sotho</option>
-                <option value="english" selected>English (default)</option>
-            </select><br><br>
-            <label for="textInput">Text: <input type="textInput" name="textInput" id="textInput"
-                    placeholder="how are you today"> </label>
-            <input type="submit" value="Submit">
+<body class="bg-white text-white">
+    <nav class="bg-dark-95 hidden md:flex items-center justify-between p-3 drop-shadow-md w-full z-10">
+        <a href="./../index.html">
+            <img src={LogoIcon} class="w-20 hidden md:flex" alt="logo" />
+        </a>
+        <ul class="hidden md:flex items-center justify-evenly gap-5">
+            <a class='hover:text-tertiary' href="./translate.html">
+                Translate
+            </a>
+            <a class='hover:text-tertiary' to="#services">
+                Transcribe
+            </a>
+            <a class='hover:text-tertiary' href="./export.html">
+                Export
+            </a>
+        </ul>
+        <section class="hidden md:flex">
+            <a class="bg-gradient-to-r w-full w-full flex justify-center items-center from-primary to-secondary text-white px-4 py-2 rounded-lg hover:from-secondary hover:to-primary"" href="
+                ./translate.html">
+                Translate
+            </a>
+        </section>
+    </nav>
+    <div class="flex gap-2 justify-center w-full px-4 py-8">
+        <form id="myForm" class="w-full lg:w-2/3 py-8 bg-dark gap-3 shadow-lg rounded-xl">
+            <section class="flex flex-col px-3 gap-2">
+                <label for="language">Choose your language:</label>
+                <select id="language" name="language" class="rounded-lg py-2 text-black">
+                    <option value="northern sotho">Northern Sotho</option>
+                    <option value="afrikaans">Afrikaans</option>
+                    <option value="zulu">Zulu</option>
+                    <option value="tsonga">Tsonga</option>
+                    <option value="xhosa">Xhosa</option>
+                    <option value="swahili">Swahili</option>
+                    <option value="swati">Swati</option>
+                    <option value="southern sotho">Southern Sotho</option>
+                    <option value="english" selected>English (default)</option>
+                </select>
+                <label for="textInput">Text:</label>
+                <input class="rounded-lg py-2 px-2 text-black" type="textInput" name="textInput" id="textInput"
+                    placeholder="how are you today">
+                <input class="bg-green-500 px-3 py-1 rounded-lg hover:bg-green-400" type="submit" value="Submit">
+            </section>
         </form>
     </div>
 
-    <div class="tralated-text">
+    <section class="flex justify-center">
+        <div class="tralated-text bg-dark text-teal-400 border border-dotted py-2 px-4 rounded-lg text-center">
 
-    </div>
+        </div>
+    </section>
+
+
 
     <script src="../js/main.js"></script>
 </body>
