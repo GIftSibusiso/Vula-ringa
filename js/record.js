@@ -1,3 +1,35 @@
+async function processAudio(uploadId, clientToken, webhookUrl) {
+  const url = `https://vulavula-services.lelapa.ai/api/v1/transcribe/process/${uploadId}`;
+
+  const headers = {
+    "X-CLIENT-TOKEN": clientToken,
+    "Content-Type": "application/json",
+  };
+
+  const body = JSON.stringify({
+    webhook: webhookUrl,
+    language_code: "zul",
+  });
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      headers: headers,
+      body: body,
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! Status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    console.log("Transcription:", data);
+    return data;
+  } catch (error) {
+    console.error("Error processing audio:", error);
+  }
+}
+
 document.addEventListener("DOMContentLoaded", () => {
   const startButton = document.getElementById("start");
   const stopButton = document.getElementById("stop");
@@ -61,7 +93,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
       // Set the headers
       const headers = {
-        "X-CLIENT-TOKEN": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU1YjQ1MGY5MDcyOTRlM2ZhMzAyZDU0Nzg4NWNiYmEzIiwiY2xpZW50X2lkIjoyNywicmVxdWVzdHNfcGVyX21pbnV0ZSI6MCwibGFzdF9yZXF1ZXN0X3RpbWUiOm51bGx9.3xQ7MpYDtjvy7uJfIpYZ4mwI_OdVH2JTuX4OzqUmJyQ", // Replace with your actual client token
+        "X-CLIENT-TOKEN":
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImU1YjQ1MGY5MDcyOTRlM2ZhMzAyZDU0Nzg4NWNiYmEzIiwiY2xpZW50X2lkIjoyNywicmVxdWVzdHNfcGVyX21pbnV0ZSI6MCwibGFzdF9yZXF1ZXN0X3RpbWUiOm51bGx9.3xQ7MpYDtjvy7uJfIpYZ4mwI_OdVH2JTuX4OzqUmJyQ", // Replace with your actual client token
         "Content-Type": "application/json",
       };
 
@@ -80,7 +113,13 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
         const data = await response.json();
-        console.log("File uploaded successfully:", data);
+        const { upload_id } = data;
+        processAudio(
+          upload_id,
+          headers["X-CLIENT-TOKEN"],
+          "https://webhook.site/85a1d3f6-e293-4fd7-bb11-793f44d3008e"
+        );
+        // read webhook response
       } catch (error) {
         console.error("Error uploading file:", error);
       }
