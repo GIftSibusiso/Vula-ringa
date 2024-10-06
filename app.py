@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, render_template
 from flask_sqlalchemy import SQLAlchemy
 
 app = Flask(__name__)
@@ -43,6 +43,12 @@ def webhook():
     db.session.commit()
     
     return jsonify({"message": "Data stored successfully!"}), 200
+
+
+@app.route("/")
+def home():
+    return render_template("index.html")
+
 
 # Get all stored webhook data
 @app.route('/webhook/data', methods=['GET'])

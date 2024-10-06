@@ -1,0 +1,11 @@
+{% extends 'index.html' %}
+
+<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+
+{% block content %}
+    <h2>Record your voice</h2>
+    <button id="start-btn">Start Recording</button>
+    <button id="stop-btn" disabled>Stop Recording</button>
+
+    <script src="{{ url_for('static', filename='scripts/media-recorder.js') }}"></script>
+{% endblock %}
