@@ -45,7 +45,7 @@ def webhook():
     return jsonify({"message": "Data stored successfully!"}), 200
 
 
-@app.route("/")
+@app.route("/", methods=['GET'])
 def home():
     return render_template("index.html")
 
