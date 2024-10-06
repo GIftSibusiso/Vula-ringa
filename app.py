@@ -80,3 +80,5 @@ def get_data_by_upload_id(upload_id):
     return jsonify({"message": "Data not found"}), 404
 
 
+if __name__ == "__main__":
+    app.run()
