@@ -10,10 +10,6 @@ VULAVULA_TOKEN = os.getenv("VULAVULA_TOKEN")
 
 app = Flask(__name__)
 
-QFREQ_TOKEN = "5e8dba9d-eda7-4ed3-8dea-390cc5f3a41c"
-VULAVULA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4Y2E2YWYwM2Q4NTRlNDM5MmFkZGYwNmRmMGExOWNjIiwiY2xpZW50X2lkIjoyOTIsInJlcXVlc3RzX3Blcl9taW51dGUiOjAsImxhc3RfcmVxdWVzdF90aW1lIjpudWxsfQ.v65bB9NYXsBWQMT6-GoeTBq7qmIQAP17lZYt8UogPeE"
-
-
 lang_code_map = {
         "nso_Latn": "sot-ZA-dnn-kamohelo",
         "afr_Latn": "afr-ZA-dnn-maryna",
