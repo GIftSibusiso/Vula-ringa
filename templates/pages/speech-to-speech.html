@@ -1,11 +1,75 @@
 {% extends 'index.html' %}
 
-<link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+{% block scripts %} 
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='speech-style.css') }}">
+{% endblock %}
 
 {% block content %}
-    <h2>Record your voice</h2>
-    <button id="start-btn">Start Recording</button>
-    <button id="stop-btn" disabled>Stop Recording</button>
+    <div class="lang-opt">
+        <select name="language" id="source-lang">
+            <option value="nso_Latn">Northern Sotho</option>
+            <option value="afr_Latn">Afrikaans</option>
+            <option value="sot_Latn">Southern Sotho</option>
+            <option value="ssw_Latn">Swati</option>
+            <option value="tso_Latn">Tsonga</option>
+            <option value="tsn_Latn">Tswana</option>
+            <option value="xho_Latn">Xhosa</option>
+            <option value="zul_Latn">Zulu</option>
+            <option value="eng_Latn" selected>English</option>
+            <option value="swh_Latn">Swahili</option>
+            <option value="sna_Latn">Shona</option>
+        </select>
+
+        <i class="material-icons">sync_alt</i>
+
+        <select name="language" id="language">
+            <option value="nso_Latn">Northern Sotho</option>
+            <option value="afr_Latn">Afrikaans</option>
+            <option value="sot_Latn">Southern Sotho</option>
+            <option value="ssw_Latn">Swati</option>
+            <option value="tso_Latn">Tsonga</option>
+            <option value="tsn_Latn">Tswana</option>
+            <option value="xho_Latn">Xhosa</option>
+            <option value="zul_Latn" selected>Zulu</option>
+            <option value="eng_Latn">English</option>
+        </select>
+    </div>
+
+    <div class="source-div">
+        <button id="startRecord"><i class="material-icons">mic</i></button>
+        <button id="stopRecord" disabled><i class="material-icons">mic_off</i></button>
+
+        <!-- Hidden audio element -->
+        <audio id="audioPlayback" hidden></audio>
+
+        <!-- Custom play button -->
+        <button id="playAudioButton" disabled>
+            <i class="material-icons">play_circle</i>
+        </button>
+
+        <p>Translate: <span id="output"></span></p>
+    </div>
+
+    <div class="target-div">
+        <p>Translated: <span id="translated-text"></span></p>
+        
+        <!-- Hidden audio element -->
+        <audio id="audioPlayer" hidden></audio>
+
+        <!-- Custom play button for the synthesized audio -->
+        <button id="playSynthAudioButton" disabled>
+            <i class="material-icons">play_circle</i>
+        </button>
+    </div>
+
+    <div id="progressContainer" style="display: none;">
+        <p id="progressText"></p>
+        <progress id="progressBar" value="0" max="100"></progress>
+    </div>
+    
 
     <script src="{{ url_for('static', filename='scripts/media-recorder.js') }}"></script>
+
 {% endblock %}

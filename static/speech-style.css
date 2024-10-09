@@ -1,0 +1,72 @@
+.lang-opt {
+    display: flex;
+    justify-content: space-between;
+    margin: 30px;
+}
+
+button {
+    all: unset; 
+}
+
+#startRecord i.material-icons:hover, #stopRecord i.material-icons:hover {
+    background-color: #d88a15; /* Darken background on hover */
+}
+
+/* Ensure the icon is centered and properly sized */
+#startRecord i.material-icons, #stopRecord i.material-icons {
+    background-color: #f19a1a;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px; /* Adjust icon size */
+    cursor: pointer;
+    padding: 3px;
+    transition: background-color 0.3s ease;
+}
+
+#playAudioButton {
+    margin-left: 20px;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+#playAudioButton i.material-icons, i.material-icons {
+    background-color: black;
+    color: white;
+    border-radius: 50%;
+    font-size: 20px; /* Adjust icon size */
+    cursor: pointer;
+    padding: 3px;
+    transition: background-color 0.3s ease;
+}
+
+.source-div p, .source-div, .source-div span, .target-div, .target-div p, .target-div span {
+    background-color: #fff;
+    color: #000;
+}
+
+.source-div, .target-div {
+    min-height: 200px;
+    border-radius: 20px;
+    padding: 10px;
+    margin: 10px;
+}
+
+.target-div {
+    position: relative; /* Allows positioning of children */
+    padding: 20px; /* Optional: Add some padding */
+}
+
+#playSynthAudioButton {
+    position: absolute; /* Position the button absolutely within the parent */
+    bottom: 10px; /* Adjust this value to move the button up or down */
+    left: 50%; /* Move the button to the center */
+    transform: translateX(-50%); /* Center the button horizontally */
+    border: none; /* Remove default border */
+    border-radius: 50%; /* Make the button round */
+    padding: 10px; /* Add padding to the button */
+    cursor: pointer; /* Change cursor to pointer on hover */
+}
+
+#playSynthAudioButton:hover, #playAudioButton:hover {
+    background-color: #000; /* Optional: Change background color on hover */
+}

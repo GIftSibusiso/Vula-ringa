@@ -3,9 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>{% block title %}Vula-ringa{% endblock %}</title>
+    {% block scripts %} {% endblock %}
 </head>
 <body>
-    Webhook
+    <main>
+        {% block content %} {% endblock %}
+    </main>
 </body>
 </html>

@@ -1,84 +1,113 @@
-from flask import Flask, request, jsonify, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, render_template, request, jsonify, send_file
+
+import os
+import io
+
+from convert_webm_wav import convert_to_wav, transcribe, synthesize_speech, translate
+
+QFREQ_TOKEN = os.getenv("QFREQ_TOKEN")
+VULAVULA_TOKEN = os.getenv("VULAVULA_TOKEN")
 
 app = Flask(__name__)
 
-# Configuring the SQLite database
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///webhook_data.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-
-db = SQLAlchemy(app)
-
-# Database model
-class WebhookData(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    upload_id = db.Column(db.String(50), unique=True, nullable=False)
-    text = db.Column(db.Text, nullable=False)
-    status_code = db.Column(db.Integer, nullable=False)
-    language_id = db.Column(db.String(10), nullable=False)
-
-    def __repr__(self):
-        return f"<WebhookData {self.upload_id}>"
-
-# Create the database (only needed once)
-with app.app_context():
-    db.create_all()
-
-@app.route('/webhook', methods=['POST'])
-def webhook():
-    data = request.json
-    upload_id = data.get('upload_id')
-    text = data['postprocessed_text'][0]['text']
-    status_code = data.get('status_code')
-    language_id = data.get('language_id')
-    
-    # Store the data in the database
-    webhook_data = WebhookData(
-        upload_id=upload_id,
-        text=text,
-        status_code=status_code,
-        language_id=language_id
-    )
-    db.session.add(webhook_data)
-    db.session.commit()
-    
-    return jsonify({"message": "Data stored successfully!"}), 200
+QFREQ_TOKEN = "5e8dba9d-eda7-4ed3-8dea-390cc5f3a41c"
+VULAVULA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImM4Y2E2YWYwM2Q4NTRlNDM5MmFkZGYwNmRmMGExOWNjIiwiY2xpZW50X2lkIjoyOTIsInJlcXVlc3RzX3Blcl9taW51dGUiOjAsImxhc3RfcmVxdWVzdF90aW1lIjpudWxsfQ.v65bB9NYXsBWQMT6-GoeTBq7qmIQAP17lZYt8UogPeE"
 
 
-@app.route("/", methods=['GET'])
+lang_code_map = {
+        "nso_Latn": "sot-ZA-dnn-kamohelo",
+        "afr_Latn": "afr-ZA-dnn-maryna",
+        "sot_Latn": "sot-ZA-dnn-kamohelo",
+        "ssw_Latn": "ssw-ZA-dnn-temaswati",
+        "tso_Latn": "tso-ZA-dnn-sasekani",
+        "tsn_Latn": "tsn-ZA-dnn-lethabo",
+        "xho_Latn": "xho-ZA-dnn-zoleka",
+        "zul_Latn": "zul-ZA-dnn-lindiwe",
+        "eng_Latn": "eng-ZA-dnn-candice",
+    }
+
+@app.route("/")
 def home():
-    return render_template("index.html")
+    return render_template("pages/speech-to-speech.html")
 
 
-# Get all stored webhook data
-@app.route('/webhook/data', methods=['GET'])
-def get_all_data():
-    all_data = WebhookData.query.all()
-    result = [
-        {
-            "upload_id": data.upload_id,
-            "text": data.text,
-            "status_code": data.status_code,
-            "language_id": data.language_id
-        }
-        for data in all_data
-    ]
-    return jsonify(result), 200
+@app.route("/speech")
+def speech_to_speech():
+    return render_template("pages/home.html")
 
-# Get data by upload_id
-@app.route('/webhook/data/<upload_id>', methods=['GET'])
-def get_data_by_upload_id(upload_id):
-    data = WebhookData.query.filter_by(upload_id=upload_id).first()
-    if data:
-        result = {
-            "upload_id": data.upload_id,
-            "text": data.text,
-            "status_code": data.status_code,
-            "language_id": data.language_id
-        }
-        return jsonify(result), 200
-    return jsonify({"message": "Data not found"}), 404
+
+@app.route("/text")
+def text_to_text():
+    return render_template("pages/text-to-text.html")
+
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    # Get and save audio file
+    audio_file = request.files['audio_file']
+    file_path = 'uploads/' + audio_file.filename
+    # return jsonify({"text": "The Translation endpoint takes the provided text and translates it from the source language to the target language. The maximum text length for each request is 256 words"}), 200
+    # Delete files if they exist
+    if os.path.exists("uploads/recording.wav"):
+        os.remove("uploads/recording.wav")
+    if os.path.exists("uploads/recording.webm"):
+        os.remove("uploads/recording.webm")
+    
+    # return jsonify({"text": "Good morning, how are you today?"})
+
+    audio_file.save(file_path)
+
+    # Convert file to a .wav (since .webm format is not acceptable)
+    convert_to_wav()
+    transcription_resp, resp_code = transcribe(os.path.getsize(file_path), VULAVULA_TOKEN)
+
+    if resp_code == 200:
+        text = transcription_resp["text"]
+        print(transcription_resp)
+        return jsonify({"text": text}), 200
+    
+    print(transcription_resp)
+    return jsonify({"text": "Could not translate"}), 500
+    
+
+@app.route("/translate", methods={'POST'})
+def translate_text():
+    # Get text
+    data = request.json
+    text = data["text"]
+    source_lang = data["sourceLang"]
+    language = data["language"]
+    
+    print("Now translating")
+    translated_text, trns_code = translate(VULAVULA_TOKEN, source_lang, language, text)
+    if trns_code == 200:
+        return {"translated-text": translated_text}, 200
+    else:
+        return {}, 500
+
+
+@app.route("/get-audio", methods=['POST'])
+def synthesize():
+    print("Now synthesizing")
+    # Get text
+    data = request.json
+    translated_text = data["text"]
+    language = data["language"]
+
+    synthesize_speech(QFREQ_TOKEN, lang_code_map[language], translated_text)
+    
+
+    # Load or generate the WAV file
+    with open('uploads/output.wav', 'rb') as f:
+        wav_data = f.read()  # Read the file into memory
+
+    # Convert the audio data to a BytesIO stream
+    audio_stream = io.BytesIO(wav_data)
+    audio_stream.seek(0)  # Go to the start of the stream
+
+    # Send the file using send_file(), specifying the correct MIME type
+    return send_file(audio_stream, mimetype='audio/wav', as_attachment=False), 200
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(debug=True)
